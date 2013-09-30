@@ -21,13 +21,21 @@ def common_words(filename):
     """" We return the top 10 most common words.
     """
     textfile = open(filename, 'r')
+
+    # split text in file into a word list.  Punctuation still remains.
     word_list=re.split('\s+',file(filename).read().lower())
-    for word in word_list : 
+
+    # remove punctuation
+    for i, word in enumerate(word_list) : 
         for char in string.punctuation : 
             word = word.replace(char, '')
+            word_list[i] = word
     common_words = []
+
+    # Counter().most_common returns an ordered list of tuples.
     for key,value in Counter(word_list).most_common(10) :
         common_words.append(key)
+    
     textfile.close()
     return common_words
 
@@ -41,9 +49,12 @@ def common_words_min(filename, min_chars):
     """
     textfile = open(filename, 'r')
     temp_list=re.split('\s+',file(filename).read().lower())
-    for word in temp_list : 
+    for i, word in enumerate(temp_list) : 
         for char in string.punctuation : 
             word = word.replace(char, '')
+            temp_list[i] = word
+
+    # Slight modification of common_words here, strip words that are too small.        
     word_list = [s for s in temp_list if len(s) >= min_chars]
     common_words = []
     for key,value in Counter(word_list).most_common(10) :
@@ -61,11 +72,14 @@ def common_words_tuple(filename, min_chars):
     """
     textfile = open(filename, 'r')
     temp_list=re.split('\s+',file(filename).read().lower())
-    for word in temp_list : 
+    for i, word in enumerate(temp_list) : 
         for char in string.punctuation : 
-            word = word.replace(char, '')
+            word = word.replace(char,'')
+            temp_list[i] = word
     word_list = [s for s in temp_list if len(s) >= min_chars]
     textfile.close()
+
+    # As stated earlier, Counter().most_common returns a list of ordered tuples.
     return Counter(word_list).most_common(10)
 
 def common_words_safe(filename, min_chars):
@@ -80,9 +94,10 @@ def common_words_safe(filename, min_chars):
         print 'File missing!'
         return
     temp_list=re.split('\s+',file(filename).read().lower())
-    for word in temp_list : 
+    for i, word in enumerate(temp_list) : 
         for char in string.punctuation : 
-            word = word.replace(char, '')
+            word = word.replace(char,'')
+            temp_list[i] = word
     word_list = [s for s in temp_list if len(s) >= min_chars]
     textfile.close()
     return Counter(word_list).most_common(10)

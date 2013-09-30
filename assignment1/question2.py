@@ -1,6 +1,6 @@
 import os
 from os.path import basename
-
+import json
 from PIL import Image
 
 class Article:
@@ -30,36 +30,61 @@ class Article:
         self.headline = headline
         self.creator = creator        
         self.content = content
-        self.image = None
+        self.related_image = image
 
     @classmethod
-    def loadfile(cls, file, creator, image=None) : #loads a file, using the file name as a title and the contents as content
+    def loadfile(cls, file) : #loads a properly formated json file.
         try:
             f = open(file, 'r')
-            base = basename(file)
-            headline = os.path.splitext(base)[0]
-            content = f.read()
-            f.close()
-            return cls(headline, creator, content, image)
+            json_data = f.read()
+            data = json.loads(json_data)
+            headline = data['headline']            
+            content = data['content']
+            creator = data['creator']
+            if data['image_url'] == '' :
+                return cls(headline, creator, content)
+            else :
+                image = Picture(data['image_url'], data['image_creator'])
+                cls(headline, creator, content, image)            
+                return cls(headline, creator, content, image)
         except IOError :
-            print "File does not exists"
+            print 'File does not exists'
 
     def save(self) :
         title = self.headline + "-" + self.creator
         try :
             f = open(title, 'r') #check to see if file exists
             f.close()
-            print "file already exists\n"
+            print 'file already exists\n'
         except IOError :
             try : 
                 f = open(title, 'w')
-                f.write(self.headline + "\nBy "  + self.creator + "\n\n" + self.content)
-                print "Write successful.\n"
+                if self.related_image == None :
+                    output = {
+                        'headline' : self.headline,
+                        'creator' : self.creator,
+                        'content' : self.content,
+                        'image_url' : '',
+                        'image_creator' : ''
+                    }
+                else :
+                    output = {
+                        'headline' : self.headline,
+                        'creator' : self.creator,
+                        'content' : self.content,
+                        'image_url' : self.related_image.image_file,
+                        'image_creator' : self.related_image.creator
+                    }
+                json_output = json.dumps(output)
+                f.write(json_output)
+                print 'Write successful.\n'
             except IOError :
-                print "Could not open file to save\n"
+                print 'Could not open file to save\n'
 
     def __str__(self) :
-        return self.headline + "\nBy " + self.creator + "\n\n" + self.content
+        if self.related_image != None :
+            self.related_image.show()
+        return self.headline + '\nBy ' + self.creator + '\n\n' + self.content
 
 
     pass
@@ -74,11 +99,11 @@ class Picture:
             - show (show image)
     '''
     def __init__(self, path, creator) :
-        self.path = path
+        self.image_file = path
         self.creator = creator
 
     def show(self) :
-        img = Image.open(self.path)
+        img = Image.open(self.image_file)
         img.show()
 
     pass
