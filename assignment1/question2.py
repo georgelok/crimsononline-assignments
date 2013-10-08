@@ -86,9 +86,6 @@ class Article:
             self.related_image.show()
         return self.headline + '\nBy ' + self.creator + '\n\n' + self.content
 
-
-    pass
-
 class Picture:
     '''
     Question 2c
@@ -105,5 +102,3 @@ class Picture:
     def show(self) :
         img = Image.open(self.image_file)
         img.show()
-
-    pass
