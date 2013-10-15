@@ -1,0 +1,13 @@
+{% comment %}
+    The basic template all templates will be based off of
+{% endcomment %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Blogs{% endblock %}</title>
+    </head>
+    <body>
+        {% comment %} Block where the pages' content will go {% endcomment %}        
+        {% block content %}{% endblock %}
+    </body>
+</html>

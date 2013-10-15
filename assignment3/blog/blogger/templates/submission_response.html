@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if success %}
+        <p>Post saved!</p>
+    {% else %}
+    <p>{{ message }}<p>
+    {% endif %}
+    <a href="/posts/create/">Go back and create a new post!</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{{ author }}</h1>
+    <h2>Posts</h2>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
