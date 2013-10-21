@@ -5,8 +5,10 @@
 <html>
     <head>
         <title>{% block title %}Blogs{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="/static/blogger/styles.css">
     </head>
     <body>
+    	<h1>BLOG HEADER</h1>
         {% comment %} Block where the pages' content will go {% endcomment %}        
         {% block content %}{% endblock %}
     </body>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% comment %} Ugly HTML, but you get the idea {% endcomment %}        
+{% block content %}
+    <form action="/authors/create/submit/" method="POST">
+        {% comment %} 
+            crsf_token used to prevent other sites from submitting
+            forms to your Django project
+        {% endcomment %}        
+        {% csrf_token %}
+        <label>First Name</label>
+        <input type="text" name="first">
+        <br>
+        <label>Last Name</label>
+        <input type="text" name="last">
+        <br>
+        <select name="gender">
+            <option value="true">Male</option>
+            <option value="false">Female</option>
+        </select>
+        <br>
+        <input type="submit" value="Save Author">                
+
+    </form>
+{% endblock %}

@@ -17,13 +17,19 @@ urlpatterns = patterns('blogger.views',
     url(r'^posts/(?P<post_id>\d*)/$', 'blog_post'),
 
     # Create a post
-    url(r'^posts/create/$', 'create'),
+    url(r'^posts/create/$', 'create_post'),
 
     # Page that handles data sent by /posts/create
     url(r'^posts/create/submit/$', 'save_post'),
 
     # View all authors
     url(r'^authors/$', 'all_authors'),
+
+    # Create a post
+    url(r'^authors/create/$', 'create_author'),   
+    
+    # Page that handles data sent by /authors/create
+    url(r'^authors/create/submit/$', 'save_author'),     
 
     # View all posts by one author
     url(r'^authors/(?P<author_id>\d*)/$', 'author'),
